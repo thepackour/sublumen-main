@@ -1,0 +1,72 @@
+html {
+  margin: 0;
+  padding: 0;
+  background: black; /* 전체 배경 검정 */
+}
+
+main {
+  display: grid;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  top: 80px; /* 네비게이션 바 높이만큼 여백 */
+  flex-grow: 1;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 0px;
+}
+
+.page-wrapper {
+  position: relative; /* ::before 기준점 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 100%;
+  background: black; /* 기본 배경 */
+  color: white;
+  /* transition: background 2s ease; */
+}
+
+.page-wrapper::before {
+  content: "";
+  position: absolute;
+  top: var(--scroll-offset, -700px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 140%;
+  background: radial-gradient(circle at top center, rgba(255,255,255,0.5) 0%, transparent 60%);
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.page-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('~@/assets/bg_universe.jpg') no-repeat center/cover;
+  opacity: 1;
+  transition: opacity 2s ease;
+  z-index: -1;
+}
+
+.page-wrapper.about::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('~@/assets/bg_universe.jpg') no-repeat center/cover;
+  opacity: 1;
+  transition: opacity 2s ease;
+  z-index: -1;
+}
+
+@keyframes gradientScroll {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}

@@ -1,0 +1,72 @@
+##### Frontend #####
+### Node.js ###
+frontend/node_modules/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+### Vue build ###
+frontend/dist/
+frontend/build/
+frontend/coverage/
+
+### env files ###
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+### IDE ###
+frontend/.vscode/
+frontend/.idea/
+
+### OS ###
+frontend/.DS_Store
+frontend/Thumbs.db
+
+### Logs and Cache ###
+frontend/.cache/
+frontend/tmp/
+frontend/logs/
+
+
+frontend/src/pages/Narrative.vue
+
+
+##### Backend #####
+backend/.gradle
+backend/build/
+!backend/gradle/wrapper/gradle-wrapper.jar
+!backend/**/src/main/**/build/
+!backend/**/src/test/**/build/
+backend/src/main/resources/application.yaml
+
+### STS ###
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.springBeans
+backend/.sts4-cache
+backend/bin/
+!backend/**/src/main/**/bin/
+!backend/**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+backend/.idea
+backend/*.iws
+backend/*.iml
+backend/*.ipr
+backend/out/
+!backend/**/src/main/**/out/
+!backend/**/src/test/**/out/
+
+### NetBeans ###
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+
+### VS Code ###
+backend/.vscode/
