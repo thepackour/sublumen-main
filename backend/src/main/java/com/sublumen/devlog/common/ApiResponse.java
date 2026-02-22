@@ -11,4 +11,7 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> of(String message, T data) {
         return new ApiResponse<T>(message, data);
     }
+    public static <T> ApiResponse<T> of(String message) {
+        return new ApiResponse<T>(message, null);
+    }
 }
