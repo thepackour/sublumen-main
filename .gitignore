@@ -39,6 +39,7 @@ backend/build/
 !backend/**/src/main/**/build/
 !backend/**/src/test/**/build/
 backend/src/main/resources/application.yaml
+backend/src/main/resources/application-prod.yaml
 
 ### STS ###
 backend/.apt_generated
