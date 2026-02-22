@@ -19,7 +19,7 @@ public class Tag {
     @Column(length = 20)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PostTag> postTags;
 
 
