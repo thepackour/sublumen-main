@@ -7,10 +7,12 @@ import com.sublumen.devlog.repository.SpringDataJpaPostRepository;
 import com.sublumen.devlog.repository.SpringDataJpaPostTagRepository;
 import com.sublumen.devlog.repository.SpringDataJpaTagRepository;
 import com.sublumen.devlog.web.dto.PostRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,12 +35,12 @@ public class PostService {
         this.postTagRepository = postTagRepository;
     }
 
-    public List<Post> getPosts(Pageable pageable) {
-        return postRepository.getPosts(pageable);
+    public Page<Post> getPosts(Pageable pageable) {
+        return postRepository.findAllByDeletedAtIsNull(pageable);
     }
 
-    public Post getPost(Long id) {
-        return postRepository.getPostById(id).orElseThrow(
+    public Post getPost(Integer id) {
+        return postRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("존재하지 않는 데이터입니다.")
         );
     }
@@ -48,15 +50,37 @@ public class PostService {
                 .title(request.getTitle())
                 .content(request.getContent())
                 .build();
-        postRepository.save(post);
+        Post res = postRepository.save(post);
+        addTags(request, res);
+        return post;
+    }
 
+    public Post updatePost(Integer id, PostRequest request) {
+        Post post = postRepository.findById(id).orElseThrow( () ->
+                new NoSuchElementException("존재하지 않는 데이터입니다.") );
+        post.updateTitle(request.getTitle());
+        post.updateContent(request.getContent());
+        postTagRepository.deletePostTagByPostId(post.getId());
+        addTags(request, post);
+        return post;
+    }
+
+    public void deletePost(Integer id) {
+        Post post = postRepository.findById(id).orElseThrow( () ->
+                new NoSuchElementException("존재하지 않는 데이터입니다.") );
+        post.setDeletedAt(LocalDateTime.now());
+    }
+
+
+    private void addTags(PostRequest request, Post post) {
         List<Tag> tags = new ArrayList<>();
+        if (request.getTags() == null) request.setTags(new ArrayList<>());
+
         for (String tagStr : request.getTags()) {
             Optional<Tag> opTag = tagRepository.getTagByName(tagStr);
             if (opTag.isPresent()) {
                 tags.add(opTag.get());
-            }
-            else {
+            } else {
                 tags.add(tagRepository.save(new Tag(tagStr)));
             }
         }
@@ -64,7 +88,5 @@ public class PostService {
             PostTag postTag = new PostTag(post, tag);
             postTagRepository.save(postTag);
         }
-
-        return post;
     }
 }
