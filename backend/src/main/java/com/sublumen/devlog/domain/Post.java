@@ -1,10 +1,8 @@
 package com.sublumen.devlog.domain;
 
+import com.sublumen.devlog.web.dto.PostRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(length = 50)
@@ -28,7 +26,7 @@ public class Post {
 
     private Long views = 0L;
 
-    @OneToMany(mappedBy = "post_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PostTag> postTags;
 
     @CurrentTimestamp
@@ -39,11 +37,26 @@ public class Post {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Setter
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
 
     public Long increaseViews() {
         return ++(this.views);
+    }
+
+    public void updateTitle(PostRequest request) {
+        this.title = request.getTitle();
+    }
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(PostRequest request) {
+        this.content = request.getContent();
+    }
+    public void updateContent(String content) {
+        this.content = content;
     }
 }
